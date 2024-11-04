@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->integer('score')->default(0);
+            $table->tinyInteger('role')->comment('0: User, 1: Admin');
             $table->timestamps();
         });
 
