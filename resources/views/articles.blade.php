@@ -5,6 +5,7 @@
                 <div class="p-6 text-gray-900">
                     {{ __("Articles") }}
                 </div>
+                <x-add-button class="ms-3"></x-add-button>
             </div>
         </div>
     </div>
