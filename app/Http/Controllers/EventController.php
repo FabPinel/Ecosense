@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Participate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -85,4 +86,37 @@ class EventController extends Controller
     {
         return User::select('id', 'name', 'score')->findOrFail($userId);
     }    
+
+    /**
+     * Participation à un évènement.
+     */
+    public function toggleParticipation($eventId)
+    {
+        $userId = Auth::id();
+        
+        $participation = Participate::where('user', $userId)
+            ->where('event', $eventId)
+            ->first();
+    
+        if ($participation) {
+            $participation->delete();
+    
+            $user = User::find($userId);
+            $user->score -= 10;
+            $user->save();
+    
+            session()->flash('message', 'Vous ne participez plus à cet événement.');
+        } else {
+            Participate::create(['user' => $userId, 'event' => $eventId]);
+    
+            $user = User::find($userId);
+            $user->score += 10;
+            $user->save();
+    
+            session()->flash('message', 'Vous participez à cet événement.');
+        }
+        
+        return redirect()->route('events.show', $eventId);
+    }
+      
 }

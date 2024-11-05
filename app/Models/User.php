@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Event::class, 'creator');
     }
+
+    public function participates()
+{
+    return $this->hasMany(Participate::class, 'user');
+}
 }

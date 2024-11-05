@@ -25,7 +25,8 @@ Route::get('/articles/{id}', [ArticleController::class, 'getArticleById'])->name
 Route::get('/evenements', [EventController::class, 'index'])->name('events');
 Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
 Route::post('/events', [EventController::class, 'store'])->name('events.store');
-Route::get('/events/{id}', [EventController::class, 'getEventById'])->name('events.show');
+Route::get('/evenements/{id}', [EventController::class, 'getEventById'])->name('events.show');
+Route::post('/events/{event}/participate', [EventController::class, 'toggleParticipation'])->name('events.participate');
 
 Route::get('/formation', function () {
     return view('studies');
