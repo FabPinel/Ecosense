@@ -1,7 +1,7 @@
 <x-app-layout>
     <div x-data="{ open: false }" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pt-4">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pt-4 pb-4">
                 <!-- Bouton pour ouvrir le formulaire modal -->
                 <x-add-button class="ms-3" @click="open = true"></x-add-button>
 
