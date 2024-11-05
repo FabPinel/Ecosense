@@ -21,7 +21,7 @@
                         @click.stop
                     >
                         <h2 class="text-2xl font-bold mb-4">Ajouter un Article</h2>
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             <div>
@@ -46,7 +46,7 @@
 
                             <div class="mb-4">
                                 <x-input-label for="category" class="block text-sm font-medium text-gray-700">Catégorie</x-input-label>
-                                <x-select name="category" :options="['tech' => 'Technologie', 'health' => 'Santé', 'sports' => 'Sport']" />
+                                <x-select name="category" :options="['Transport', 'Zéro déchets', 'Climat']" />
                             </div>
 
                             <div class="mb-4">
