@@ -1,11 +1,7 @@
 <x-app-layout>
     <div x-data="{ open: false }" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Articles") }}
-                </div>
-
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pt-4">
                 <!-- Bouton pour ouvrir le formulaire modal -->
                 <x-add-button class="ms-3" @click="open = true"></x-add-button>
 
@@ -76,14 +72,14 @@
                 </div>
 
                 <section aria-labelledby="collection-heading"
-                class="mx-auto max-w-xl px-4 pt-24 sm:px-6 sm:pt-32 lg:max-w-7xl lg:px-8">
+                class="mx-auto max-w-xl px-4 pt-24 sm:px-6 sm:pt-8 lg:max-w-7xl lg:px-8">
                 <h2 id="collection-heading" class="text-2xl font-bold tracking-tight text-gray-900">Nos articles</h2>
                 <p class="mt-4 text-base text-gray-500">Explorez l'écologie avec nos articles pour créer des
                     solutions durables à la maison. Faites place à la créativité et à la responsabilité environnementale !
                     🌱🛠️</p>
                 <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
                     @foreach ($articles as $article)
-                        <a href="" class="group block">
+                        <a href="{{ route('articles.show', $article->id) }}" class="group block">
                             <div aria-hidden="true"
                                 class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
                                 <img src="{{ asset('storage/images/' . $article->image) }}"

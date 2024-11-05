@@ -19,6 +19,7 @@ Route::get('/dashboard', function () {
 Route::get('/articles', [ArticleController::class, 'index'])->middleware(['auth', 'verified'])->name('articles');
 Route::get('/articles/create', [ArticleController::class, 'create'])->middleware(['auth', 'verified'])->name('articles.create');
 Route::post('/articles', [ArticleController::class, 'store'])->middleware(['auth', 'verified'])->name('articles.store');
+Route::get('/articles/{id}', [ArticleController::class, 'getArticleById'])->name('articles.show');
 
 Route::get('/evenements', function () {
     return view('events');

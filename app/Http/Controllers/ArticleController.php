@@ -66,4 +66,13 @@ class ArticleController extends Controller
         // Redirection avec un message de succès
         return redirect()->route('articles')->with('success', 'L\'article a bien été créé');
     }
+
+    /**
+     * Recuperer un article par son id.
+     */
+    public function getArticleById($id)
+    {
+        $article = Article::findOrFail($id);
+        return view('articles.show', compact('article'));
+    }
 }
