@@ -46,7 +46,7 @@
 
                             <div class="mb-4">
                                 <x-input-label for="category" class="block text-sm font-medium text-gray-700">Catégorie</x-input-label>
-                                <x-select name="category" :options="['Transport', 'Zéro déchets', 'Climat']" />
+                                <x-select name="category" :options="['Transport' => 'Transport', 'Zéro déchets' => 'Zéro déchets', 'Climat' => 'Climat']" />
                             </div>
 
                             <div class="mb-4">
@@ -74,6 +74,30 @@
                         </form>
                     </div>
                 </div>
+
+                <section aria-labelledby="collection-heading"
+                class="mx-auto max-w-xl px-4 pt-24 sm:px-6 sm:pt-32 lg:max-w-7xl lg:px-8">
+                <h2 id="collection-heading" class="text-2xl font-bold tracking-tight text-gray-900">Nos articles</h2>
+                <p class="mt-4 text-base text-gray-500">Explorez l'écologie avec nos articles pour créer des
+                    solutions durables à la maison. Faites place à la créativité et à la responsabilité environnementale !
+                    🌱🛠️</p>
+                <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
+                    @foreach ($articles as $article)
+                        <a href="" class="group block">
+                            <div aria-hidden="true"
+                                class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
+                                <img src="{{ asset('storage/images/' . $article->image) }}"
+                                    class="h-52 w-96 object-cover object-center">
+                            </div>
+                            <h3 class="mt-4 text-base font-semibold text-gray-900">{{ $article->title }}</h3>
+                            <p class="mt-2 text-sm text-gray-500">
+                                {{ Str::limit($article->description, $limit = 160, $end = '...') }}
+                            </p>
+                            <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">{{$article->category}}</span>
+                        </a>
+                    @endforeach
+                </div>
+            </section>
             </div>
         </div>
     </div>
