@@ -16,10 +16,10 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::with('creator')->orderBy('created_at', 'desc')->paginate(10);
+        $events = Event::withCount('participants')->orderBy('created_at', 'desc')->paginate(10);
         return view('events', compact('events'));
-    }    
-
+    }
+    
     /**
      * Affiche le formulaire de création d'un événement.
      */

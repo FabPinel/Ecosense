@@ -27,6 +27,14 @@ class Event extends Model
         return $this->belongsTo(User::class, 'creator');
     }
 
+    /**
+     * Relation avec le modèle User pour obtenir les informations des participants.
+     */
+    public function participants()
+    {
+        return $this->hasMany(Participate::class, 'event', 'id');
+    }
+
     // Accessor pour formater la date
     public function getFormattedEventDateAttribute()
     {

@@ -96,8 +96,8 @@
                                             <p class="mt-5 text-sm/6 text-gray-600">{{ $event->description }}</p>
                                         </div>
                                         <div class="flex items-center gap-x-4 text-xs mt-4">
-                                            10 participant(s)
-                                        </div>
+                                            {{ $event->participants_count }} participant(s)
+                                        </div>                                        
                                     </div>
                                 </article>
                             </a>                        
