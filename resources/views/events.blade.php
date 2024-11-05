@@ -1,11 +1,7 @@
 <x-app-layout>
-    <div x-data="{ open: false }" class="py-12">
+    <div x-data="{ open: false }" class="py-12 pt-4 pb-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Evenements") }}
-                </div>
-
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pt-4 pb-4">
                 <!-- Bouton pour ouvrir le formulaire modal -->
                 <x-add-button class="ms-3" @click="open = true"></x-add-button>
 
@@ -21,7 +17,7 @@
                         @click.stop
                     >
                         <h2 class="text-2xl font-bold mb-4">Ajouter un évènement</h2>
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             <div>
@@ -45,18 +41,13 @@
                                 />
                             </div>
 
-                            <div class="mb-4">
-                                <x-input-label for="adresse" class="block text-sm font-medium text-gray-700">Adresse</x-input-label>
-                                <x-textarea
-                                    name="adresse"
-                                    id="adresse"
-                                    rows="4"
-                                    class="w-full border-gray-300 rounded-lg p-2 mt-1"
-                                ></x-textarea>
+                            <div>
+                                <x-input-label for="location" :value="__('Adresse')" />
+                                <x-text-input id="location" class="block mt-1 w-full" type="text" name="location" />
                             </div>
 
                             <div class="mb-4">
-                                <label for="image" class="block text-sm font-medium text-gray-700">Image / Vidéos</label>
+                                <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
                                 <input
                                     type="file"
                                     name="image"
@@ -80,6 +71,40 @@
                         </form>
                     </div>
                 </div>
+
+                <div class="bg-white">
+                    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                      <div class="mx-auto max-w-2xl lg:max-w-4xl">
+                        <h2 class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Tous les évènements</h2>
+                        <p class="mt-2 text-lg/8 text-gray-600">Partagez des moments unique pour un monde meilleur.</p>
+                        @foreach ($events as $event)
+                            <a href="{{ route('events.show', $event->id) }}" class="group block mt-16 space-y-20 lg:mt-20 lg:space-y-20 transition transform hover:translate-y-1 hover:shadow-lg">
+                                <article class="relative isolate flex flex-col gap-8 lg:flex-row rounded-2xl shadow-lg bg-white">
+                                    <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
+                                        <img src="{{ asset('storage/images/' . $event->image) }}" alt="" class="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover">
+                                        <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+                                    </div>
+                                    <div>
+                                        <div class="group relative max-w-xl">
+                                            <div class="flex items-center gap-x-4">
+                                                <time datetime="{{ $event->event_date }}" class="text-green-500">{{ $event->formatted_event_date }} | {{ $event->location }}</time>
+                                            </div>
+                                            <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
+                                                <span class="absolute inset-0"></span>
+                                                {{ $event->title }}
+                                            </h3>
+                                            <p class="mt-5 text-sm/6 text-gray-600">{{ $event->description }}</p>
+                                        </div>
+                                        <div class="flex items-center gap-x-4 text-xs mt-4">
+                                            10 participant(s)
+                                        </div>
+                                    </div>
+                                </article>
+                            </a>                        
+                        @endforeach                    
+                      </div>
+                    </div>
+                  </div>                  
             </div>
         </div>
     </div>

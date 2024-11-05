@@ -4,30 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Event extends Model
 {
     use HasFactory;
 
-    /**
-     * Les attributs assignables.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'title',
         'description',
         'location',
+        'event_date',
         'image',
         'creator',
     ];
 
     /**
-     * Relation avec le modèle User (créateur de l'événement).
-     * Un événement appartient à un utilisateur.
+     * Relation avec le modèle User pour obtenir les informations du créateur.
      */
-    public function user()
+    public function creator()
     {
         return $this->belongsTo(User::class, 'creator');
+    }
+
+    // Accessor pour formater la date
+    public function getFormattedEventDateAttribute()
+    {
+        Carbon::setLocale('fr');
+        return Carbon::parse($this->event_date)->translatedFormat('j F Y');
     }
 }

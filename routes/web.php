@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,9 +22,10 @@ Route::get('/articles/create', [ArticleController::class, 'create'])->middleware
 Route::post('/articles', [ArticleController::class, 'store'])->middleware(['auth', 'verified'])->name('articles.store');
 Route::get('/articles/{id}', [ArticleController::class, 'getArticleById'])->name('articles.show');
 
-Route::get('/evenements', function () {
-    return view('events');
-})->middleware(['auth', 'verified'])->name('events');
+Route::get('/evenements', [EventController::class, 'index'])->name('events');
+Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
+Route::post('/events', [EventController::class, 'store'])->name('events.store');
+Route::get('/events/{id}', [EventController::class, 'getEventById'])->name('events.show');
 
 Route::get('/formation', function () {
     return view('studies');
