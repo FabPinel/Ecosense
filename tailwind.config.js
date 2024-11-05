@@ -14,6 +14,9 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            backgroundImage: {
+              'hero-section': "url('/storage/app/public/images/hero_section.jpg')"
+            },
         },
     },
 
