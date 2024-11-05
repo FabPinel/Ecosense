@@ -36,7 +36,7 @@ class EventController extends Controller
         // Validation des champs du formulaire
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'location' => 'required|string|max:255',
             'event_date' => 'required|date',
             'image' => 'required|mimes:jpeg,jpg,png,svg|max:10240',

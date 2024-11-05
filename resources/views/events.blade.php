@@ -25,9 +25,14 @@
                                 <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" />
                             </div>
 
-                            <div>
-                                <x-input-label for="description" :value="__('Description')" />
-                                <x-text-input id="description" class="block mt-1 w-full" type="text" name="description" />
+                            <div class="mb-4">
+                                <x-input-label for="description" class="block text-sm font-medium text-gray-700">Description</x-input-label>
+                                <x-textarea
+                                    name="description"
+                                    id="description"
+                                    rows="4"
+                                    class="w-full border-gray-300 rounded-lg p-2 mt-1"
+                                ></x-textarea>
                             </div>
 
                             <div class="mb-4">
