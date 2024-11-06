@@ -1,11 +1,7 @@
 <x-app-layout>
     <div x-data="{ open: false }" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Formation") }}
-                </div>
-
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-4">
                 <!-- Bouton pour ouvrir le formulaire modal -->
                 <x-add-button class="ms-3" @click="open = true"></x-add-button>
 
@@ -84,22 +80,43 @@
                         </form>
                     </div>
                 </div>
-                <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
-                    @foreach ($studies as $study)
-                        <a href="{{ route('studies.show', $study->id) }}" class="group block">
-                            <div aria-hidden="true"
-                                class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
-                                <img src="{{ asset('storage/images/' . $study->image) }}"
-                                    class="h-52 w-96 object-cover object-center">
-                            </div>
-                            <h3 class="mt-4 text-base font-semibold text-gray-900">{{ $study->title }}</h3>
-                            <p class="mt-2 text-sm text-gray-500">
-                                {{ Str::limit($study->description, $limit = 160, $end = '...') }}
-                            </p>
-                            <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">{{$study->category}}</span>
-                        </a>
-                    @endforeach
-                </div>
+
+                <div class="bg-white">
+                    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                      <div class="mx-auto max-w-2xl lg:max-w-4xl">
+                        <h2 class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Toutes les formations</h2>
+                        <p class="mt-2 text-lg/8 text-gray-600">Découvrez des vidéos sur l'écologie et gagnez des points 🏆 à chaque vidéo suivie. Engagez-vous pour la planète 🌱 tout en accumulant des récompenses !</p>
+                        <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
+                            @foreach ($studies as $study)
+                                <a href="{{ route('studies.show', $study->id) }}" class="group block">
+                                    <div aria-hidden="true" class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
+                                        @if($study->video)
+                                            @php
+                                                // Extraire l'ID de la vidéo YouTube
+                                                preg_match('/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $study->video, $matches);
+                                                $videoId = $matches[1] ?? null;
+                                            @endphp
+        
+                                            @if ($videoId)
+                                                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            @else
+                                                <p class="text-sm text-gray-500">Vidéo non disponible</p>
+                                            @endif
+                                        @else
+                                            <img src="{{ asset('storage/images/' . $study->image) }}" class="h-52 w-96 object-cover object-center">
+                                        @endif
+                                    </div>
+                                    <h3 class="mt-4 text-base font-semibold text-gray-900">{{ $study->title }}</h3>
+                                    <p class="mt-2 text-sm text-gray-500">
+                                        {{ Str::limit($study->description, $limit = 160, $end = '...') }}
+                                    </p>
+                                    <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{$study->category}}</span>
+                                </a>
+                            @endforeach
+                        </div>             
+                      </div>
+                    </div>
+                </div>     
             </div>
         </div>
     </div>
