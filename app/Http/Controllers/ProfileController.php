@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -57,4 +58,30 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Display another user's profile.
+     */
+    public function show($id): View
+    {
+        $user = User::findOrFail($id);
+        $authUser = Auth::user();
+        $users = User::orderByDesc('score')->get();
+    
+        $rank = $users->search(function ($item) use ($user) {
+            return $item->id == $user->id;
+        });
+    
+        $rank = $rank !== false ? $rank + 1 : null;
+    
+        $participationCount = $user->participates ? $user->participates->count() : 0;
+    
+        return view('profile.edit', [
+            'user' => $user,
+            'authUser' => $authUser,
+            'rank' => $rank,
+            'participationCount' => $participationCount,
+        ]);
+    }
+    
 }
