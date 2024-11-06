@@ -1,8 +1,14 @@
-<section><h2 id="collection-heading" class="text-2xl font-bold tracking-tight text-gray-900">Derniers articles</h2>
+<section><h2 id="collection-heading" class="text-2xl font-bold tracking-tight text-gray-900">Derniers articles</h2> 
                 <p class="mt-4 text-base text-gray-500">Explorez l'écologie avec nos articles pour créer des
                     solutions durables à la maison. Faites place à la créativité et à la responsabilité environnementale !
                     🌱🛠️</p>
-                <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
+                <div class="mt-8 text-right">
+                    <a href="{{ route('articles') }}" class="inline-flex items-right px-4 py-2 text-sm font-medium rounded-md text-green-500 bg-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white">
+                        Afficher plus →
+                    </a>
+                </div>
+                
+                <div class="mt-5 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
                     @foreach ($lastArticles as $article)
                         <a href="{{ route('articles.show', $article->id) }}" class="group block">
                             <div aria-hidden="true"

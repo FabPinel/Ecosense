@@ -1,8 +1,13 @@
-<section><h2 id="collection-heading" class="text-2xl font-bold tracking-tight text-gray-900">Prochains Événements</h2>
+<section><h2 id="collection-heading" class="mt-10 text-2xl font-bold tracking-tight text-gray-900">Prochains Événements</h2>
                 <p class="mt-4 text-base text-gray-500">
                     Ne manquez pas nos événements à venir pour échanger, apprendre et agir ensemble en faveur de l'écologie. Rejoignez des ateliers pratiques, des discussions inspirantes, et développez des solutions durables pour un impact positif sur notre planète. 🌍💡
                 </p>
-                <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
+                <div class="mt-8 text-right">
+                    <a href="{{ route('events') }}" class="inline-flex items-right px-4 py-2 text-sm font-medium rounded-md text-green-500 bg-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white">
+                        Afficher plus →
+                    </a>
+                </div>
+                <div class="mt-5 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0 mb-10">
                     @foreach ($nextEvents as $event)
                         <a href="{{ route('events.show', $event->id) }}" class="group block">
                             <div aria-hidden="true"
