@@ -38,4 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/import-articles', [IAController::class, 'importIA']);
+
+
+
 require __DIR__.'/auth.php';
