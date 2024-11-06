@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Services\MeilisearchService;
 
 class ArticleController extends Controller
 {
+    protected $meilisearch;
+
+    // Inject MeilisearchService
+    public function __construct(MeilisearchService $meilisearch)
+    {
+        $this->meilisearch = $meilisearch;
+    }
     /**
      * Affiche la liste des articles.
      */
@@ -62,6 +70,21 @@ class ArticleController extends Controller
 
         // Création de l'article
         Article::create($data);
+
+          // Add the article to Meilisearch
+          $this->meilisearch->addDocuments('articles', [
+            [
+                'id' => $article->id,
+                'title' => $article->title,
+                'description' => $article->description,
+                'text' => $article->text,
+                'category' => $article->category,
+                'image' => $article->image,
+                'creator' => $article->creator,
+                'created_at' => $article->created_at,
+                'updated_at' => $article->updated_at,
+            ]
+        ]);
 
         // Redirection avec un message de succès
         return redirect()->route('articles')->with('success', 'L\'article a bien été créé');
