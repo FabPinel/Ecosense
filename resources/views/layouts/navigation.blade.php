@@ -19,10 +19,10 @@
                         {{ __('Articles') }}
                     </x-nav-link>
                     <x-nav-link :href="route('events')" :active="request()->routeIs('events')">
-                        {{ __('Événements') }}
+                        {{ __('Évènements') }}
                     </x-nav-link>
                     <x-nav-link :href="route('studies')" :active="request()->routeIs('studies')">
-                        {{ __('Formation') }}
+                        {{ __('Formations') }}
                     </x-nav-link>
                     <x-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')">
                         {{ __('Classement') }}
