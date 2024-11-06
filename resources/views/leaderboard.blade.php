@@ -31,7 +31,7 @@
                                     <p class="text-lg font-bold text-gray-900 p-2">{{ $index + 1 }}</p>
                                     <div class="min-w-0 flex-auto">
                                         <p class="text-sm font-semibold text-gray-900">{{ $user->name }}</p>
-                                        <p class="mt-1 text-xs text-gray-500">{{ $user->email }}</p>
+                                        <x-grade-badge :score="$user->score" />
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-x-4 p-2">
