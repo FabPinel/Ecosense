@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\StudyController;
+use App\Http\Controllers\LeaderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,9 +38,7 @@ Route::get('/formation/{id}', [StudyController::class, 'getStudyById'])->name('s
 Route::post('/studies/{study}/follow', [StudyController::class, 'toggleFollow'])->name('studies.follow');
 
 
-Route::get('/classement', function () {
-    return view('leaderboard');
-})->middleware(['auth', 'verified'])->name('leaderboard');
+Route::get('/classement', [LeaderController::class, 'leaderboard'])->name('leaderboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
