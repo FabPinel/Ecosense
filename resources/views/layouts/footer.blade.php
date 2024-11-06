@@ -3,7 +3,7 @@
     <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
         <div class="xl:grid xl:grid-cols-3 xl:gap-8">
             <div class="space-y-8">
-                <a href="{{ route('dashboard') }}">
+                <a href="{{ route('home') }}">
                     <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                 </a>
                 <p class="text-balance text-sm/6 text-gray-700">

@@ -9,11 +9,14 @@
                 </div>
                 <div class="mt-5 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0 mb-10">
                     @foreach ($nextEvents as $event)
-                        <a href="{{ route('events.show', $event->id) }}" class="group block">
+                        <a href="{{ route('events.show', $event->id) }}" class="group block transition shadow-md transform hover:translate-y-1 hover:shadow-lg">
                             <div aria-hidden="true"
                                 class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
                                 <img src="{{ asset('storage/images/' . $event->image) }}"
                                     class="h-52 w-96 object-cover object-center">
+                            </div>
+                            <div class="flex items-center gap-x-4">
+                                <time datetime="{{ $event->event_date }}" class="text-green-500">{{ $event->formatted_event_date }}</time>
                             </div>
                             <h3 class="mt-4 text-base font-semibold text-gray-900">{{ $event->title }}</h3>
                             <p class="mt-2 text-sm text-gray-500">

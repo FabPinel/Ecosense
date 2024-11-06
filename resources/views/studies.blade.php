@@ -88,7 +88,7 @@
                         <p class="mt-2 text-lg/8 text-gray-600">Découvrez des vidéos sur l'écologie et gagnez des points 🏆 à chaque vidéo suivie. Engagez-vous pour la planète 🌱 tout en accumulant des récompenses !</p>
                         <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
                             @foreach ($studies as $study)
-                                <a href="{{ route('studies.show', $study->id) }}" class="group block">
+                                <a href="{{ route('studies.show', $study->id) }}" class="group block transition shadow-md transform hover:translate-y-1 hover:shadow-lg">
                                     <div aria-hidden="true" class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
                                         @if($study->video)
                                             @php
