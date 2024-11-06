@@ -22,5 +22,16 @@
                 </button>
             </div>
         </form>
+        <div class="mt-6">
+            <h2 class="text-xl font-bold">Commentaires</h2>
+            @foreach($article->comments as $comment)
+                <div class="mt-4 p-4 border rounded-md">
+                    <p><strong>{{ $comment->user }}</strong></p> <!-- Nom de l'utilisateur du commentaire -->
+                    <p>{{ $comment->comment }}</p>
+                    <p class="text-sm text-gray-500">Publié le : {{ $comment->created_at->format('d/m/Y') }}</p>
+                </div>
+            @endforeach
+
+        </div>
     </div>
 </x-app-layout>

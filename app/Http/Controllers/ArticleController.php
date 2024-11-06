@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
@@ -80,32 +81,37 @@ class ArticleController extends Controller
      */
     public function getArticleById($id)
     {
-        $article = Article::findOrFail($id);
+        $article = Article::with(['user', 'comments.user'])->findOrFail($id);
         return view('articles.show', compact('article'));
     }
 
     public function storeComment(Request $request, $articleId)
     {
-        // Validation des champs du formulaire
+        $userId = Auth::id();
+        // Validation du commentaire
         $request->validate([
-            'comment' => 'required|string|max:1000', // Valider la longueur du commentaire
+            'comment' => 'required|string|max:1000',
         ], [
             'comment.required' => 'Le commentaire ne peut pas être vide.',
             'comment.max' => 'Le commentaire ne peut pas dépasser 1000 caractères.',
         ]);
-
+    
         // Récupérer l'article
         $article = Article::findOrFail($articleId);
-
-        // Créer le commentaire
+    
+        // Créer et enregistrer le commentaire
         $comment = new Comment();
         $comment->comment = $request->input('comment');
-        $comment->article= $article->id;
-        $comment->user = Auth::id(); // Assurez-vous que l'utilisateur est connecté
+        $comment->article = $article->id; // Utilisation de la clé étrangère correcte
+        $comment->user= Auth::user()->name; // Associe le commentaire à l'utilisateur connecté
+        $user = User::find($userId);
+        $user->score += 10;
+        $user->save();
         $comment->save();
-
-        // Rediriger l'utilisateur vers l'article avec un message de succès
+    
+        // Rediriger avec un message de succès
         return redirect()->route('articles.show', $article->id)->with('success', 'Commentaire ajouté avec succès');
     }
+    
 
 }
