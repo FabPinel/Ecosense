@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\EventController;
@@ -10,7 +11,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/accueil', [ArticleController::class, 'lastArticles'])->middleware(['auth', 'verified'])->name('home');
+Route::get('/accueil', [HomeController::class, 'accueil'])->middleware(['auth', 'verified'])->name('home');
 
 
 Route::get('/dashboard', function () {

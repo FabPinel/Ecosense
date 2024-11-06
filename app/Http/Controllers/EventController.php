@@ -20,6 +20,17 @@ class EventController extends Controller
         return view('events', compact('events'));
     }
     
+    public function nextEvents()
+    {
+    $events = Event::withCount('participants')
+                ->where('event_date', '>=', now()) // Récupère les événements à venir
+                ->orderBy('event_date', 'asc')     // Trie par date de l'événement le plus proche
+                ->take(3)                          // Limite aux 3 prochains événements
+                ->get();
+
+    return view('events', compact('events'));
+    }
+
     /**
      * Affiche le formulaire de création d'un événement.
      */
