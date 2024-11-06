@@ -54,7 +54,13 @@ class User extends Authenticatable
     }
 
     public function participates()
-{
-    return $this->hasMany(Participate::class, 'user');
-}
+    {
+        return $this->hasMany(Participate::class, 'user');
+    }
+
+    public function studyUsers()
+    {
+        return $this->hasMany(StudyUser::class, 'user');
+    }
+
 }

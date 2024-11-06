@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Study;
+use App\Models\StudyUser;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
@@ -73,4 +75,34 @@ class StudyController extends Controller
         $study = Study::findOrFail($id);
         return view('studies.show', compact('study'));
     }
+
+    public function toggleFollow($studyId)
+    {
+        $userId = Auth::id();
+        
+        $follow = StudyUser::where('user', $userId)
+            ->where('study', $studyId)
+            ->first();
+
+        if ($follow) {
+            $follow->delete();
+
+            $user = User::find($userId);
+            $user->score -= 50;
+            $user->save();
+
+            session()->flash('message', 'Vous ne suivez plus cette formation.');
+        } else {
+            StudyUser::create(['user' => $userId, 'study' => $studyId]);
+
+            $user = User::find($userId);
+            $user->score += 50;
+            $user->save();
+
+            session()->flash('message', 'Vous suivez maintenant cette formation.');
+        }
+        
+        return redirect()->route('studies.show', $studyId);
+    }
+
 }

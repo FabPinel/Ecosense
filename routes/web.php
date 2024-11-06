@@ -32,7 +32,9 @@ Route::post('/events/{event}/participate', [EventController::class, 'toggleParti
 Route::get('/formation', [StudyController::class, 'index'])->name('studies');
 Route::get('/studies/create', [StudyController::class, 'create'])->name('studies.create');
 Route::post('/studies', [StudyController::class, 'store'])->name('studies.store');
-Route::get('/studies/{id}', [StudyController::class, 'getStudyById'])->name('studies.show');
+Route::get('/formation/{id}', [StudyController::class, 'getStudyById'])->name('studies.show');
+Route::post('/studies/{study}/follow', [StudyController::class, 'toggleFollow'])->name('studies.follow');
+
 
 Route::get('/classement', function () {
     return view('leaderboard');
