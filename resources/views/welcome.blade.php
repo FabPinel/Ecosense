@@ -114,8 +114,8 @@
                         </section>
                         <div class="overflow-hidden w-full py-16 bg-[#243E25] bg-opacity-60">
                             <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
-                                <div class="grid max-w-6xl mx-auto grid-cols-1 gap-y-12 lg:grid-cols-2 lg:gap-x-12">
-                                    <div class="lg:pr-8">
+                                <div class="grid mx-auto grid-cols-1 gap-y-12 lg:grid-cols-2 lg:gap-x-12">
+                                    <div class="flex flex-col justify-center">
                                         <h2 class="text-3xl font-bold text-white sm:text-4xl lg:text-5xl leading-tight">
                                             Rejoignez ÉcoSense pour découvrir un monde d'apprentissage et de défis écologiques!
                                         </h2>
