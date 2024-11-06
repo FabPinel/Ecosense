@@ -18,6 +18,13 @@ class ArticleController extends Controller
         return view('articles', compact('articles'));
     }
 
+    public function lastArticles()
+    {
+        $lastArticles = Article::orderBy('created_at', 'desc')->take(3)->get();
+        return view('home', compact('lastArticles'));
+    }
+
+
     /**
      * Affiche le formulaire de création d'un article.
      */

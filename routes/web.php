@@ -10,9 +10,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/accueil', function () {
-    return view('home');
-})->middleware(['auth', 'verified'])->name('home');
+Route::get('/accueil', [ArticleController::class, 'lastArticles'])->middleware(['auth', 'verified'])->name('home');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
