@@ -13,16 +13,16 @@
                 <!-- Navigation Links -->
                 <div class="hidden sm:flex sm:ms-10 sm:-my-px space-x-8 flex w-full justify-center">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Acceuil') }}
+                        {{ __('Accueil') }}
                     </x-nav-link>
                     <x-nav-link :href="route('articles')" :active="request()->routeIs('articles')">
                         {{ __('Articles') }}
                     </x-nav-link>
                     <x-nav-link :href="route('events')" :active="request()->routeIs('events')">
-                        {{ __('Événements') }}
+                        {{ __('Évènements') }}
                     </x-nav-link>
                     <x-nav-link :href="route('studies')" :active="request()->routeIs('studies')">
-                        {{ __('Formation') }}
+                        {{ __('Formations') }}
                     </x-nav-link>
                     <x-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')">
                         {{ __('Classement') }}
@@ -46,7 +46,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('profile.show', Auth::id())">
                             {{ __('Profil') }}
                         </x-dropdown-link>
 
