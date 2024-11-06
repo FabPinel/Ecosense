@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden sm:flex sm:ms-10 sm:-my-px space-x-8 flex w-full justify-center">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Acceuil') }}
+                        {{ __('Accueil') }}
                     </x-nav-link>
                     <x-nav-link :href="route('articles')" :active="request()->routeIs('articles')">
                         {{ __('Articles') }}
