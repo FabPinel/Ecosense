@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\StudyController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,9 +29,10 @@ Route::post('/events', [EventController::class, 'store'])->name('events.store');
 Route::get('/evenements/{id}', [EventController::class, 'getEventById'])->name('events.show');
 Route::post('/events/{event}/participate', [EventController::class, 'toggleParticipation'])->name('events.participate');
 
-Route::get('/formation', function () {
-    return view('studies');
-})->middleware(['auth', 'verified'])->name('studies');
+Route::get('/formation', [StudyController::class, 'index'])->name('studies');
+Route::get('/studies/create', [StudyController::class, 'create'])->name('studies.create');
+Route::post('/studies', [StudyController::class, 'store'])->name('studies.store');
+Route::get('/studies/{id}', [StudyController::class, 'getStudyById'])->name('studies.show');
 
 Route::get('/classement', function () {
     return view('leaderboard');
