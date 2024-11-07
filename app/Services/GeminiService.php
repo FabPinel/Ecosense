@@ -11,7 +11,7 @@ class GeminiService
     protected $client;
     protected $apiKey = 'AIzaSyC2BRIZCU68YhxGHctPa-Uxy3M1O6a9BWI';
 
-    public function generateQuestion($text)
+    public function generateQuestionWithOptions($text)
     {
         $ch = curl_init();
 
@@ -22,7 +22,7 @@ class GeminiService
             'contents' => [
                 [
                     'parts' => [
-                        ['text' => "Génère une seule question pour amener l'utilisateur à réfléchir sur le contenu suivant : \"$text\""]
+                        ['text' => "Génère une question fermé basée sur le contenu suivant, à laquelle on peut répondre par Oui ou Non. Indique également si la réponse correcte est Oui ou Non en marquant Réponse : pour la réponse. Contenu : \"$text\""]
                     ]
                 ]
             ]
@@ -37,26 +37,38 @@ class GeminiService
 
         if (curl_errno($ch)) {
             Log::error('cURL error: ' . curl_error($ch));
-            return 'Une erreur est survenue lors de la génération de la question.';
+            return [
+                'question' => 'Une erreur est survenue lors de la génération de la question.',
+                'correctAnswer' => 'Rien trouvé' // Default to 'Oui' in case of error
+            ];
         }
-
-        Log::info('Réponse brute de l\'API Gemini: ' . $response);
 
         curl_close($ch);
         $data = json_decode($response, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             Log::error('Erreur de décodage JSON: ' . json_last_error_msg());
-            return 'Une erreur est survenue lors de la génération de la question.';
+            return [
+                'question' => 'Une erreur est survenue lors de la génération de la question.',
+                'correctAnswer' => 'Rien trouvé'
+            ];
         }
 
-        Log::info('Réponse décodée de l\'API Gemini: ', $data);
+        // Extract the question text and correct answer from the response
+        $generatedQuestion = $data['candidates'][0]['content']['parts'][0]['text'] ?? 'Pas de question générée';
 
-        // Extraire la question générée
-        $generatedQuestion = $data['candidates'][0]['content']['parts'][0]['text'] ?? 'Aucune question générée.';
-        
+        // Use a regex to extract the correct answer indication from the response text
+        preg_match('/(Réponse) ?: ?(Oui|Non)/i', $generatedQuestion, $matches);
+        $correctAnswer = $matches[2] ?? 'Rien'; // Default to '' if no clear indication is found
+
+        $questionWithoutAnswer = preg_replace('/Réponse ?: ?(Oui|Non)/i', '', $generatedQuestion);
+
         Log::info('Question générée: ' . $generatedQuestion);
+        Log::info('Réponse correcte: ' . $correctAnswer);
 
-        return $generatedQuestion;
+        return [
+            'question' => $questionWithoutAnswer,
+            'correctAnswer' => $correctAnswer
+        ];
     }
 }

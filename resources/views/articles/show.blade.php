@@ -8,11 +8,30 @@
         <p class="mt-4 text-gray-700">Catégorie : {{ $article->category }}</p>
         <p class="text-sm text-gray-500">Publié le : {{ $article->created_at->format('d/m/Y') }}</p>
             
-        <div class="bg-green-100 p-4 rounded-lg mb-4">
-            <h2 class="text-xl font-bold">Question de l'IA :</h2>
-            <p>{{ $generatedQuestion }}</p>
+        <div x-data="{ isCorrect: null, correctAnswer: '{{ $generatedData['correctAnswer'] }}' }" class="bg-green-100 p-4 rounded-lg mb-4">
+            <h2 class="text-xl font-bold">Question de réflexion :</h2>
+            <p>{{ $generatedData['question'] }}</p>
+            
+            <!-- Answer Options -->
+            <div class="mt-4 flex space-x-4">
+                <button 
+                    @click="isCorrect = (correctAnswer === 'Oui')" 
+                    class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300">
+                    Oui
+                </button>
+                <button 
+                    @click="isCorrect = (correctAnswer === 'Non')" 
+                    class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300">
+                    Non
+                </button>
+            </div>
+
+            <!-- Display Feedback -->
+            <div x-show="isCorrect !== null" class="mt-4 p-2 rounded" :class="isCorrect ? 'bg-green-200' : 'bg-red-200'">
+                <p x-text="isCorrect ? 'Correct!' : 'Incorrect!'"></p>
+            </div>
         </div>
-        
+
         <!-- Formulaire de commentaire -->
         <form action="{{ route('articles.storeComment', $article->id) }}" method="POST" class="mt-4">
             @csrf
@@ -39,4 +58,3 @@
         </div>
     </div>
 </x-app-layout>
-

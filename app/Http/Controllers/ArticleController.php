@@ -77,9 +77,9 @@ class ArticleController extends Controller
         $article = Article::with(['user', 'comments.user'])->findOrFail($id);
         
         // Utiliser GeminiService pour générer une question basée sur le contenu de l'article
-        $generatedQuestion = $this->geminiService->generateQuestion($article->text);
+        $generatedData = $this->geminiService->generateQuestionWithOptions($article->text);
 
-        return view('articles.show', compact('article', 'generatedQuestion'));
+        return view('articles.show', compact('article', 'generatedData'));
     }
 
     /**
