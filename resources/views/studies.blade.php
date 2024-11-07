@@ -4,8 +4,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-4">
                 <!-- Bouton pour ouvrir le formulaire modal -->
                 @auth
-                    <x-add-button :score="auth()->user()->score" :role="auth()->user()->role" />
+                    <x-add-button 
+                        :score="auth()->user()->score" 
+                        :role="auth()->user()->role" 
+                        @click="open = true" 
+                    />
                 @endauth
+
 
                 <!-- Popup de formulaire d'ajout d'article -->
                 <div
