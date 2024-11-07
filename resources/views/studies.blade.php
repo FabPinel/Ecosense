@@ -52,7 +52,7 @@
 
                             <div class="mb-4">
                                 <x-input-label for="category" class="block text-sm font-medium text-gray-700">Catégorie</x-input-label>
-                                <x-select name="category" :options="['Transport' => 'Transport', 'Zéro déchets' => 'Zéro déchets', 'Climat' => 'Climat']" />
+                                <x-select name="category" :options="['Quotidien' => 'Quotidien', 'Environnement ' => 'Environnement']" />
                             </div>
 
                             <div class="mb-4">

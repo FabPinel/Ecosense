@@ -16,9 +16,10 @@ class StudyController extends Controller
      */
     public function index()
     {
-        $studies = Study::orderBy('created_at', 'desc')->paginate(10);
+        $studies = Study::orderBy('created_at', 'asc')->paginate(10);
         return view('studies', compact('studies'));
     }
+    
 
     /**
      * Affiche le formulaire de création d'une étude.
