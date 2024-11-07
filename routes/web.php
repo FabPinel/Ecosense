@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::post('/profile/{user}/toggle-follow', [ProfileController::class, 'toggleFollow'])->name('profile.toggleFollow');
 });
 
 require __DIR__.'/auth.php';

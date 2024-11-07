@@ -23,7 +23,7 @@ class Follow extends Model
      * Relation avec le modèle User (utilisateur suivi).
      * Un enregistrement dans `follows` appartient à un utilisateur suivi.
      */
-    public function followedUser()
+    public function following()
     {
         return $this->belongsTo(User::class, 'user');
     }
@@ -32,7 +32,7 @@ class Follow extends Model
      * Relation avec le modèle User (utilisateur qui suit).
      * Un enregistrement dans `follows` appartient à un utilisateur suiveur.
      */
-    public function followerUser()
+    public function followers()
     {
         return $this->belongsTo(User::class, 'follower');
     }

@@ -81,9 +81,9 @@
                     <div class="mx-auto max-w-7xl px-6 lg:px-8">
                       <div class="mx-auto max-w-2xl lg:max-w-4xl">
                         <h2 class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Tous les évènements</h2>
-                        <p class="mt-2 text-lg/8 text-gray-600">Partagez des moments unique pour un monde meilleur.</p>
+                        <p class="mt-2 text-lg/8 text-gray-600">Rejoignez des initiatives pour un avenir plus vert 🌱 et récoltez des points 🏅 à chaque participation. Que ce soit pour des actions locales ou des événements en ligne, chaque geste compte pour la planète et pour vous !"</p>
                         @foreach ($events as $event)
-                            <a href="{{ route('events.show', $event->id) }}" class="group block mt-16 space-y-20 lg:mt-20 lg:space-y-20 transition transform hover:translate-y-1 hover:shadow-lg">
+                            <a href="{{ route('events.show', $event->id) }}" class="group block mt-16 space-y-20 lg:mt-20 lg:space-y-20 transition shadow-md transform hover:translate-y-1 hover:shadow-lg">
                                 <article class="relative isolate flex flex-col gap-8 lg:flex-row rounded-2xl shadow-lg bg-white">
                                     <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
                                         <img src="{{ asset('storage/images/' . $event->image) }}" alt="" class="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover">

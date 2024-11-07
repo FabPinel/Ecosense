@@ -10,7 +10,7 @@
                 
                 <div class="mt-5 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
                     @foreach ($lastArticles as $article)
-                        <a href="{{ route('articles.show', $article->id) }}" class="group block">
+                        <a href="{{ route('articles.show', $article->id) }}" class="group block transition shadow-md transform hover:translate-y-1 hover:shadow-lg">
                             <div aria-hidden="true"
                                 class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
                                 <img src="{{ asset('storage/images/' . $article->image) }}"
@@ -20,7 +20,7 @@
                             <p class="mt-2 text-sm text-gray-500">
                                 {{ Str::limit($article->description, $limit = 160, $end = '...') }}
                             </p>
-                            <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">{{$article->category}}</span>
+                            <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{$article->category}}</span>
                         </a>
                     @endforeach
                 </div>

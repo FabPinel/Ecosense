@@ -16,7 +16,10 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::withCount('participants')->orderBy('created_at', 'desc')->paginate(10);
+        $events = Event::withCount('participants')
+                    ->orderBy('event_date', 'asc')
+                    ->paginate(10);
+    
         return view('events', compact('events'));
     }
     

@@ -63,4 +63,17 @@ class User extends Authenticatable
         return $this->hasMany(StudyUser::class, 'user');
     }
 
+    // Relation pour les utilisateurs que cet utilisateur suit
+    public function following()
+    {
+       return $this->hasMany(Follow::class, 'follower');
+    }
+  
+    // Relation pour les utilisateurs qui suivent cet utilisateur
+     public function followers()
+     {
+        return $this->hasMany(Follow::class, 'user');
+    } 
+    
+
 }

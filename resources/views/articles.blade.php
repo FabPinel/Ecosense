@@ -71,30 +71,32 @@
                     </div>
                 </div>
 
-                <section aria-labelledby="collection-heading"
-                class="mx-auto max-w-xl px-4 pt-24 sm:px-6 sm:pt-8 lg:max-w-7xl lg:px-8">
-                <h2 id="collection-heading" class="text-2xl font-bold tracking-tight text-gray-900">Nos articles</h2>
-                <p class="mt-4 text-base text-gray-500">Explorez l'écologie avec nos articles pour créer des
-                    solutions durables à la maison. Faites place à la créativité et à la responsabilité environnementale !
-                    🌱🛠️</p>
-                <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
-                    @foreach ($articles as $article)
-                        <a href="{{ route('articles.show', $article->id) }}" class="group block">
-                            <div aria-hidden="true"
-                                class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
-                                <img src="{{ asset('storage/images/' . $article->image) }}"
-                                    class="h-52 w-96 object-cover object-center">
-                            </div>
-                            <h3 class="mt-4 text-base font-semibold text-gray-900">{{ $article->title }}</h3>
-                            <p class="mt-2 text-sm text-gray-500">
-                                {{ Str::limit($article->description, $limit = 160, $end = '...') }}
-                            </p>
-                            <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">{{$article->category}}</span>
-                        </a>
-                    @endforeach
-                </div>
-            </section>
+                <div class="bg-white">
+                    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                      <div class="mx-auto max-w-2xl lg:max-w-4xl">
+                        <h2 class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Tous nos articles</h2>
+                        <p class="mt-2 text-lg/8 text-gray-600">Commentez nos articles écologiques 🌱 pour partager vos idées et apprendre davantage sur des sujets comme le climat, la gestion des déchets, et bien plus. Plus vous participez, plus vous gagnez de points 🏆 !</p>
+                        <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
+                            @foreach ($articles as $article)
+                            <a href="{{ route('articles.show', $article->id) }}" class="group block mb-6 transition transform hover:translate-y-1 hover:shadow-lg">
+                                <div aria-hidden="true"
+                                    class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
+                                    <img src="{{ asset('storage/images/' . $article->image) }}"
+                                        class="h-52 w-96 object-cover object-center">
+                                </div>
+                                <h3 class="mt-4 text-base font-semibold text-gray-900">{{ $article->title }}</h3>
+                                <p class="mt-2 text-sm text-gray-500">
+                                    {{ Str::limit($article->description, $limit = 160, $end = '...') }}
+                                </p>
+                                <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{$article->category}}</span>
+                            </a>
+                        @endforeach
+                        </div>             
+                      </div>
+                    </div>
+                </div>     
             </div>
+
         </div>
     </div>
 </x-app-layout>
