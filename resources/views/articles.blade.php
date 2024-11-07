@@ -75,7 +75,7 @@
                     <div class="mx-auto max-w-7xl px-6 lg:px-8">
                       <div class="mx-auto max-w-2xl lg:max-w-4xl">
                         <h2 class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Tous nos articles</h2>
-                        <p class="mt-2 text-lg/8 text-gray-600">Commentez nos articles écologiques 🌱 pour partager vos idées et apprendre davantage sur des sujets comme le climat, la gestion des déchets, et bien plus. Plus vous participez, plus vous gagnez de points 🏆 !"</p>
+                        <p class="mt-2 text-lg/8 text-gray-600">Commentez nos articles écologiques 🌱 pour partager vos idées et apprendre davantage sur des sujets comme le climat, la gestion des déchets, et bien plus. Plus vous participez, plus vous gagnez de points 🏆 !</p>
                         <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
                             @foreach ($articles as $article)
                             <a href="{{ route('articles.show', $article->id) }}" class="group block mb-6 transition transform hover:translate-y-1 hover:shadow-lg">
