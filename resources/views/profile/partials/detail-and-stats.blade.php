@@ -18,15 +18,15 @@
             </div>
         </dl>
 
-        <form action="{{ route('profile.toggleFollow', $user->id) }}" method="POST">
-            @csrf
-            <x-primary-button 
-                class="{{ $authUser->following()->where('user', $user->id)->exists() ? 'bg-red-500 hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:ring-red-500' : 'bg-green-800 hover:bg-green-600 focus:ring-green-500' }}">
-                {{ $authUser->following()->where('user', $user->id)->exists() ? 'Ne plus suivre' : 'Suivre' }}
-            </x-primary-button>
-        </form>
-
-       
+        @if ($authUser->id !== $user->id)
+            <form action="{{ route('profile.toggleFollow', $user->id) }}" method="POST">
+                @csrf
+                <x-primary-button 
+                    class="{{ $authUser->following()->where('user', $user->id)->exists() ? 'bg-red-500 hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:ring-red-500' : 'bg-green-800 hover:bg-green-600 focus:ring-green-500' }}">
+                    {{ $authUser->following()->where('user', $user->id)->exists() ? 'Ne plus suivre' : 'Suivre' }}
+                </x-primary-button>
+            </form>
+        @endif
 
     </div>
 </section>
