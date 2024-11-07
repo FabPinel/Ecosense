@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
+use App\Models\Follow;
 
 class ProfileController extends Controller
 {
@@ -82,6 +83,40 @@ class ProfileController extends Controller
             'rank' => $rank,
             'participationCount' => $participationCount,
         ]);
+    }
+
+    /**
+     * Permet de suivre ou de ne plus suivre un utilisateur.
+     */
+    public function toggleFollow($userId)
+    {
+        $authUserId = Auth::id(); // Utilisateur connecté
+
+        // Vérifie si l'utilisateur connecté suit déjà cet utilisateur
+        $follow = Follow::where('user', $userId)
+            ->where('follower', $authUserId)
+            ->first();
+
+        if ($follow) {
+            // Si déjà suivi, annule le suivi
+            $follow->delete();
+            $user = User::find($authUserId);
+            $user->score -= 10;
+            $user->save();
+            session()->flash('message', 'Vous ne suivez plus cet utilisateur.');
+        } else {
+            // Sinon, commence à suivre
+            Follow::create([
+                'user' => $userId,
+                'follower' => $authUserId,
+            ]);
+            $user = User::find($authUserId);
+            $user->score += 10;
+            $user->save();
+            session()->flash('message', 'Vous suivez cet utilisateur.');
+        }
+
+        return redirect()->route('profile.show', $userId);
     }
     
 }
