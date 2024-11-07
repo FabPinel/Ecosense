@@ -3,12 +3,16 @@
         <h1 class="text-3xl font-bold mb-4">{{ $article->title }}</h1>
         <p class="text-gray-500 mb-4">{{ $article->description }}</p>
         <p class="mb-4">{{ $article->text }}</p>
+        
         <img src="{{ asset('storage/images/' . $article->image) }}" alt="Image de l'article" class="w-full h-auto rounded-lg">
         <p class="mt-4 text-gray-700">Catégorie : {{ $article->category }}</p>
         <p class="text-sm text-gray-500">Publié le : {{ $article->created_at->format('d/m/Y') }}</p>
-
+            
+        <div class="bg-green-100 p-4 rounded-lg mb-4">
+            <h2 class="text-xl font-bold">Question de l'IA :</h2>
+            <p>{{ $generatedQuestion }}</p>
+        </div>
         
-
         <!-- Formulaire de commentaire -->
         <form action="{{ route('articles.storeComment', $article->id) }}" method="POST" class="mt-4">
             @csrf
@@ -22,6 +26,7 @@
                 </button>
             </div>
         </form>
+
         <div class="mt-6">
             <h2 class="text-xl font-bold">Commentaires</h2>
             @foreach($article->comments as $comment)
@@ -31,7 +36,7 @@
                     <p class="text-sm text-gray-500">Publié le : {{ $comment->created_at->format('d/m/Y') }}</p>
                 </div>
             @endforeach
-
         </div>
     </div>
 </x-app-layout>
+
