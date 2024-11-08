@@ -108,4 +108,27 @@ class ArticleController extends Controller
 
         return redirect()->route('articles.show', $article->id)->with('success', 'Commentaire ajouté avec succès');
     }
+
+    /**
+     * Ajout de points si bonne réponse dans l'article.
+     */
+    public function updateScore(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Utilisateur non authentifié'], 401);
+        }
+
+        $correctAnswer = $request->input('correctAnswer');
+        $userAnswer = $request->input('userAnswer');
+
+        if ($correctAnswer === $userAnswer) {
+            $user->score += 25;
+            $user->save();
+
+            return response()->json(['success' => true, 'message' => 'Bonne réponse! 50 points ajoutés.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Mauvaise réponse.']);
+    }
 }

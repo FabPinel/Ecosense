@@ -15,13 +15,13 @@
             <!-- Answer Options -->
             <div class="mt-4 flex space-x-4">
                 <button 
-                    @click="if (!answered) { isCorrect = (correctAnswer === 'Oui'); answered = true; }" 
+                    @click="if (!answered) { isCorrect = (correctAnswer === 'Oui'); answered = true; handleAnswer('Oui'); }" 
                     x-bind:disabled="answered"
                     class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
                     Oui
                 </button>
                 <button 
-                    @click="if (!answered) { isCorrect = (correctAnswer === 'Non'); answered = true; }" 
+                    @click="if (!answered) { isCorrect = (correctAnswer === 'Non'); answered = true; handleAnswer('Non'); }" 
                     x-bind:disabled="answered"
                     class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
                     Non
@@ -30,7 +30,7 @@
 
             <!-- Display Feedback -->
             <div x-show="isCorrect !== null" class="mt-4 p-2 rounded" :class="isCorrect ? 'bg-green-200' : 'bg-red-200'">
-                <p x-text="isCorrect ? 'Correct!' : 'Incorrect!'"></p>
+                <p x-text="isCorrect ? 'Bonne réponse! 50 points ajoutés.!' : 'Mauvaise réponse.!'"></p>
             </div>
         </div>
 
@@ -59,4 +59,19 @@
             @endforeach
         </div>
     </div>
+
+    <!-- Axios script pour envoyer la réponse -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function handleAnswer(userAnswer) {
+            axios.post('{{ route("articles.updateScore") }}', {
+                correctAnswer: '{{ $generatedData["correctAnswer"] }}',
+                userAnswer: userAnswer
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Erreur lors de la mise à jour du score.");
+            });
+        }
+    </script>
 </x-app-layout>
