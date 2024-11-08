@@ -1,16 +1,22 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
-use App\Models\User;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
+use App\Services\GeminiService;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
+    protected $geminiService;
+
+    public function __construct(GeminiService $geminiService)
+    {
+        $this->geminiService = $geminiService;
+    }
+
     /**
      * Affiche la liste des articles.
      */
@@ -25,7 +31,6 @@ class ArticleController extends Controller
         $lastArticles = Article::orderBy('created_at', 'desc')->take(3)->get();
         return view('home', compact('lastArticles'));
     }
-
 
     /**
      * Affiche le formulaire de création d'un article.
@@ -47,21 +52,11 @@ class ArticleController extends Controller
             'text' => 'required|string',
             'category' => 'required|string|max:100',
             'image' => 'required|mimes:jpeg,jpg,png,svg|max:10240',
-        ], [
-            'title.required' => 'Le titre est requis',
-            'description.required' => 'La description est requise',
-            'text.required' => 'Le texte de l\'article est requis',
-            'category.required' => 'Veuillez sélectionner une catégorie',
-            'image.required' => 'Une image est requise',
-            'image.mimes' => 'Formats autorisés : jpeg, jpg, png, svg',
-            'image.max' => 'La taille de l\'image ne doit pas dépasser 10 Mo',
         ]);
 
-        // Récupération des données du formulaire
         $data = $request->except('image');
         $data['creator'] = Auth::id();
 
-        // Gestion de l'upload d'image
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
@@ -69,49 +64,71 @@ class ArticleController extends Controller
             $data['image'] = $imageName;
         }
 
-        // Création de l'article
         Article::create($data);
 
-        // Redirection avec un message de succès
         return redirect()->route('articles')->with('success', 'L\'article a bien été créé');
     }
 
     /**
-     * Recuperer un article par son id.
+     * Récupère un article par son ID et génère une question de réflexion.
      */
     public function getArticleById($id)
     {
         $article = Article::with(['user', 'comments.user'])->findOrFail($id);
-        return view('articles.show', compact('article'));
+        
+        // Utiliser GeminiService pour générer une question basée sur le contenu de l'article
+        $generatedData = $this->geminiService->generateQuestionWithOptions($article->text);
+
+        return view('articles.show', compact('article', 'generatedData'));
     }
 
+    /**
+     * Enregistre un commentaire pour un article.
+     */
     public function storeComment(Request $request, $articleId)
     {
         $userId = Auth::id();
-        // Validation du commentaire
+        
         $request->validate([
             'comment' => 'required|string|max:1000',
-        ], [
-            'comment.required' => 'Le commentaire ne peut pas être vide.',
-            'comment.max' => 'Le commentaire ne peut pas dépasser 1000 caractères.',
         ]);
-    
-        // Récupérer l'article
+
         $article = Article::findOrFail($articleId);
-    
-        // Créer et enregistrer le commentaire
+
         $comment = new Comment();
         $comment->comment = $request->input('comment');
-        $comment->article = $article->id; // Utilisation de la clé étrangère correcte
-        $comment->user= Auth::user()->name; // Associe le commentaire à l'utilisateur connecté
-        $user = User::find($userId);
+        $comment->article = $article->id;
+        $comment->user = Auth::user()->name;
+
+        $user = Auth::user();
         $user->score += 10;
         $user->save();
+        
         $comment->save();
-    
-        // Rediriger avec un message de succès
+
         return redirect()->route('articles.show', $article->id)->with('success', 'Commentaire ajouté avec succès');
     }
-    
 
+    /**
+     * Ajout de points si bonne réponse dans l'article.
+     */
+    public function updateScore(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Utilisateur non authentifié'], 401);
+        }
+
+        $correctAnswer = $request->input('correctAnswer');
+        $userAnswer = $request->input('userAnswer');
+
+        if ($correctAnswer === $userAnswer) {
+            $user->score += 25;
+            $user->save();
+
+            return response()->json(['success' => true, 'message' => 'Bonne réponse! 50 points ajoutés.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Mauvaise réponse.']);
+    }
 }

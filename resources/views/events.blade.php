@@ -1,9 +1,16 @@
 <x-app-layout>
     <div x-data="{ open: false }" class="py-12 pt-4 pb-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pt-4 pb-4">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pt-4 pb-4 p-4">
                 <!-- Bouton pour ouvrir le formulaire modal -->
-                <x-add-button class="ms-3" @click="open = true"></x-add-button>
+                @auth
+                    <x-add-button 
+                        :score="auth()->user()->score" 
+                        :role="auth()->user()->role" 
+                        @click="open = true" 
+                    />
+                @endauth
+
 
                 <!-- Popup de formulaire d'ajout d'article -->
                 <div
@@ -98,7 +105,7 @@
                                                 <span class="absolute inset-0"></span>
                                                 {{ $event->title }}
                                             </h3>
-                                            <p class="mt-5 text-sm/6 text-gray-600">{{ $event->description }}</p>
+                                            <p class="mt-5 text-sm/6 text-gray-600"> {{ Str::limit($event->description, $limit = 200, $end = '...') }}</p>
                                         </div>
                                         <div class="flex items-center gap-x-4 text-xs mt-4">
                                             {{ $event->participants_count }} participant(s)

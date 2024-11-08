@@ -3,7 +3,14 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-4">
                 <!-- Bouton pour ouvrir le formulaire modal -->
-                <x-add-button class="ms-3" @click="open = true"></x-add-button>
+                @auth
+                    <x-add-button 
+                        :score="auth()->user()->score" 
+                        :role="auth()->user()->role" 
+                        @click="open = true" 
+                    />
+                @endauth
+
 
                 <!-- Popup de formulaire d'ajout d'article -->
                 <div
@@ -89,28 +96,30 @@
                         <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
                             @foreach ($studies as $study)
                                 <a href="{{ route('studies.show', $study->id) }}" class="group block transition shadow-md transform hover:translate-y-1 hover:shadow-lg">
-                                    <div aria-hidden="true" class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
-                                        @if($study->video)
-                                            @php
-                                                // Extraire l'ID de la vidéo YouTube
-                                                preg_match('/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $study->video, $matches);
-                                                $videoId = $matches[1] ?? null;
-                                            @endphp
-        
-                                            @if ($videoId)
-                                                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    <div class="p-4">
+                                        <div aria-hidden="true" class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
+                                            @if($study->video)
+                                                @php
+                                                    // Extraire l'ID de la vidéo YouTube
+                                                    preg_match('/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $study->video, $matches);
+                                                    $videoId = $matches[1] ?? null;
+                                                @endphp
+            
+                                                @if ($videoId)
+                                                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                @else
+                                                    <p class="text-sm text-gray-500">Vidéo non disponible</p>
+                                                @endif
                                             @else
-                                                <p class="text-sm text-gray-500">Vidéo non disponible</p>
+                                                <img src="{{ asset('storage/images/' . $study->image) }}" class="h-52 w-96 object-cover object-center">
                                             @endif
-                                        @else
-                                            <img src="{{ asset('storage/images/' . $study->image) }}" class="h-52 w-96 object-cover object-center">
-                                        @endif
+                                        </div>
+                                        <h3 class="mt-4 text-base font-semibold text-gray-900">{{ $study->title }}</h3>
+                                        <p class="mt-2 text-sm text-gray-500">
+                                            {{ Str::limit($study->description, $limit = 100, $end = '...') }}
+                                        </p>
+                                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{$study->category}}</span>
                                     </div>
-                                    <h3 class="mt-4 text-base font-semibold text-gray-900">{{ $study->title }}</h3>
-                                    <p class="mt-2 text-sm text-gray-500">
-                                        {{ Str::limit($study->description, $limit = 160, $end = '...') }}
-                                    </p>
-                                    <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{$study->category}}</span>
                                 </a>
                             @endforeach
                         </div>             

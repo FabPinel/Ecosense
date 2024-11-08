@@ -3,11 +3,36 @@
         <h1 class="text-3xl font-bold mb-4">{{ $article->title }}</h1>
         <p class="text-gray-500 mb-4">{{ $article->description }}</p>
         <p class="mb-4">{{ $article->text }}</p>
+        
         <img src="{{ asset('storage/images/' . $article->image) }}" alt="Image de l'article" class="w-full h-auto rounded-lg">
         <p class="mt-4 text-gray-700">Catégorie : {{ $article->category }}</p>
         <p class="text-sm text-gray-500">Publié le : {{ $article->created_at->format('d/m/Y') }}</p>
+            
+        <div x-data="{ isCorrect: null, correctAnswer: '{{ $generatedData['correctAnswer'] }}', answered: false }" class="bg-green-100 p-4 rounded-lg mb-4">
+            <h2 class="text-xl font-bold">Question de réflexion :</h2>
+            <p>{{ $generatedData['question'] }}</p>
+            
+            <!-- Answer Options -->
+            <div class="mt-4 flex space-x-4">
+                <button 
+                    @click="if (!answered) { isCorrect = (correctAnswer === 'Oui'); answered = true; handleAnswer('Oui'); }" 
+                    x-bind:disabled="answered"
+                    class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
+                    Oui
+                </button>
+                <button 
+                    @click="if (!answered) { isCorrect = (correctAnswer === 'Non'); answered = true; handleAnswer('Non'); }" 
+                    x-bind:disabled="answered"
+                    class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
+                    Non
+                </button>
+            </div>
 
-        
+            <!-- Display Feedback -->
+            <div x-show="isCorrect !== null" class="mt-4 p-2 rounded" :class="isCorrect ? 'bg-green-200' : 'bg-red-200'">
+                <p x-text="isCorrect ? 'Bonne réponse! 50 points ajoutés.!' : 'Mauvaise réponse.!'"></p>
+            </div>
+        </div>
 
         <!-- Formulaire de commentaire -->
         <form action="{{ route('articles.storeComment', $article->id) }}" method="POST" class="mt-4">
@@ -22,6 +47,7 @@
                 </button>
             </div>
         </form>
+
         <div class="mt-6">
             <h2 class="text-xl font-bold">Commentaires</h2>
             @foreach($article->comments as $comment)
@@ -31,7 +57,21 @@
                     <p class="text-sm text-gray-500">Publié le : {{ $comment->created_at->format('d/m/Y') }}</p>
                 </div>
             @endforeach
-
         </div>
     </div>
+
+    <!-- Axios script pour envoyer la réponse -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function handleAnswer(userAnswer) {
+            axios.post('{{ route("articles.updateScore") }}', {
+                correctAnswer: '{{ $generatedData["correctAnswer"] }}',
+                userAnswer: userAnswer
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Erreur lors de la mise à jour du score.");
+            });
+        }
+    </script>
 </x-app-layout>

@@ -24,6 +24,7 @@ Route::get('/articles/create', [ArticleController::class, 'create'])->middleware
 Route::post('/articles', [ArticleController::class, 'store'])->middleware(['auth', 'verified'])->name('articles.store');
 Route::get('/articles/{id}', [ArticleController::class, 'getArticleById'])->name('articles.show');
 Route::post('/articles/{articleId}/comment', [ArticleController::class, 'storeComment'])->name('articles.storeComment');
+Route::post('/articles/update-score', [ArticleController::class, 'updateScore'])->middleware(['auth'])->name('articles.updateScore');
 
 Route::get('/evenements', [EventController::class, 'index'])->name('events');
 Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
