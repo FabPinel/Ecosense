@@ -22,7 +22,7 @@ class GeminiService
             'contents' => [
                 [
                     'parts' => [
-                        ['text' => "Génère une question fermé basée sur le contenu suivant, à laquelle on peut répondre par Oui ou Non. Indique également si la réponse correcte est Oui ou Non en marquant Réponse : pour la réponse. Contenu : \"$text\""]
+                        ['text' => "Génère une question fermé basée sur le contenu suivant, à laquelle on peut répondre par Oui ou Non. Indique également si la réponse correcte est Oui ou Non en marquant Réponse : sans '*' ou '**' pour la réponse. Contenu : \"$text\""]
                     ]
                 ]
             ]
