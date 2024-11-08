@@ -8,20 +8,22 @@
         <p class="mt-4 text-gray-700">Catégorie : {{ $article->category }}</p>
         <p class="text-sm text-gray-500">Publié le : {{ $article->created_at->format('d/m/Y') }}</p>
             
-        <div x-data="{ isCorrect: null, correctAnswer: '{{ $generatedData['correctAnswer'] }}' }" class="bg-green-100 p-4 rounded-lg mb-4">
+        <div x-data="{ isCorrect: null, correctAnswer: '{{ $generatedData['correctAnswer'] }}', answered: false }" class="bg-green-100 p-4 rounded-lg mb-4">
             <h2 class="text-xl font-bold">Question de réflexion :</h2>
             <p>{{ $generatedData['question'] }}</p>
             
             <!-- Answer Options -->
             <div class="mt-4 flex space-x-4">
                 <button 
-                    @click="isCorrect = (correctAnswer === 'Oui')" 
-                    class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300">
+                    @click="if (!answered) { isCorrect = (correctAnswer === 'Oui'); answered = true; }" 
+                    x-bind:disabled="answered"
+                    class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
                     Oui
                 </button>
                 <button 
-                    @click="isCorrect = (correctAnswer === 'Non')" 
-                    class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300">
+                    @click="if (!answered) { isCorrect = (correctAnswer === 'Non'); answered = true; }" 
+                    x-bind:disabled="answered"
+                    class="answer-option p-2 rounded bg-gray-200 hover:bg-gray-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
                     Non
                 </button>
             </div>
